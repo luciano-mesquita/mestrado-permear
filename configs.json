@@ -1,0 +1,17 @@
+{
+    "cilindroAr": 0.03135,
+    "alturaCilindro": 0.05,
+    "diametroCilindro": 0.05,
+    "pressaoAtmosferica": 95000,
+    "offset": 0.0989875,
+    "sensorVs": 5.0,
+    "usarFormulaRatiometrica": true,
+    "sensorSensibilidadeVPorKPa": 1.0,
+    "fatorDivisorTensaoSensor": 1.0,
+    "pressaoCalibracaoPa": 1150,
+    "pressaoInicioMinPa": 1000,
+    "pressaoInicioMaxPa": 1100,
+    "janelaEstabilidadeSegundos": 5,
+    "oscilacaoMaximaPa": 20,
+    "timeoutEstabilidadeSegundos": 60
+}
