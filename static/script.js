@@ -314,6 +314,18 @@ function salvarConfiguracoes() {
     });
 }
 
+
+async function reiniciarEquipamento() {
+  try {
+    const res = await fetch("/reiniciar_equipamento", { method: "POST" });
+    const data = await res.json();
+    setMensagemSistema(data.status || "Comando de reinicialização enviado.", "info");
+  } catch (error) {
+    console.error("Erro ao reiniciar equipamento:", error);
+    setMensagemSistema("Não foi possível enviar o comando de reinicialização.", "erro");
+  }
+}
+
 async function desligarEquipamento() {
   try {
     const res = await fetch("/desligar_equipamento", { method: "POST" });
