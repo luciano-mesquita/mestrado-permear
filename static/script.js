@@ -284,7 +284,18 @@ function abrirModalConfig() {
       document.getElementById("config-cilindroAr").value = config.cilindroAr;
       document.getElementById("config-alturaCilindro").value = config.alturaCilindro;
       document.getElementById("config-diametroCilindro").value = config.diametroCilindro;
-      document.getElementById("config-pressao").value = config.pressaoAtmosferica;
+      document.getElementById("config-pressaoAtmosferica").value = config.pressaoAtmosferica;
+      document.getElementById("config-offset").value = config.offset;
+      document.getElementById("config-sensorVs").value = config.sensorVs;
+      document.getElementById("config-usarFormulaRatiometrica").checked = Boolean(config.usarFormulaRatiometrica);
+      document.getElementById("config-sensorSensibilidadeVPorKPa").value = config.sensorSensibilidadeVPorKPa;
+      document.getElementById("config-fatorDivisorTensaoSensor").value = config.fatorDivisorTensaoSensor;
+      document.getElementById("config-pressaoCalibracaoPa").value = config.pressaoCalibracaoPa;
+      document.getElementById("config-pressaoInicioMinPa").value = config.pressaoInicioMinPa;
+      document.getElementById("config-pressaoInicioMaxPa").value = config.pressaoInicioMaxPa;
+      document.getElementById("config-janelaEstabilidadeSegundos").value = config.janelaEstabilidadeSegundos;
+      document.getElementById("config-oscilacaoMaximaPa").value = config.oscilacaoMaximaPa;
+      document.getElementById("config-timeoutEstabilidadeSegundos").value = config.timeoutEstabilidadeSegundos;
     });
 
   document.getElementById("modal-config").style.display = "flex";
@@ -299,7 +310,18 @@ function salvarConfiguracoes() {
     cilindroAr: parseFloat(document.getElementById("config-cilindroAr").value),
     alturaCilindro: parseFloat(document.getElementById("config-alturaCilindro").value),
     diametroCilindro: parseFloat(document.getElementById("config-diametroCilindro").value),
-    pressaoAtmosferica: parseFloat(document.getElementById("config-pressao").value)
+    pressaoAtmosferica: parseFloat(document.getElementById("config-pressaoAtmosferica").value),
+    offset: parseFloat(document.getElementById("config-offset").value),
+    sensorVs: parseFloat(document.getElementById("config-sensorVs").value),
+    usarFormulaRatiometrica: document.getElementById("config-usarFormulaRatiometrica").checked,
+    sensorSensibilidadeVPorKPa: parseFloat(document.getElementById("config-sensorSensibilidadeVPorKPa").value),
+    fatorDivisorTensaoSensor: parseFloat(document.getElementById("config-fatorDivisorTensaoSensor").value),
+    pressaoCalibracaoPa: parseFloat(document.getElementById("config-pressaoCalibracaoPa").value),
+    pressaoInicioMinPa: parseFloat(document.getElementById("config-pressaoInicioMinPa").value),
+    pressaoInicioMaxPa: parseFloat(document.getElementById("config-pressaoInicioMaxPa").value),
+    janelaEstabilidadeSegundos: parseInt(document.getElementById("config-janelaEstabilidadeSegundos").value, 10),
+    oscilacaoMaximaPa: parseFloat(document.getElementById("config-oscilacaoMaximaPa").value),
+    timeoutEstabilidadeSegundos: parseInt(document.getElementById("config-timeoutEstabilidadeSegundos").value, 10)
   };
 
   fetch("/config", {
