@@ -316,6 +316,12 @@ function salvarConfiguracoes() {
 
 
 async function reiniciarEquipamento() {
+  const confirmado = window.confirm("Tem certeza que deseja reiniciar o equipamento agora?");
+  if (!confirmado) {
+    setMensagemSistema("Reinicialização cancelada pelo usuário.", "info");
+    return;
+  }
+
   try {
     const res = await fetch("/reiniciar_equipamento", { method: "POST" });
     const data = await res.json();
@@ -327,6 +333,12 @@ async function reiniciarEquipamento() {
 }
 
 async function desligarEquipamento() {
+  const confirmado = window.confirm("Tem certeza que deseja desligar o equipamento agora?");
+  if (!confirmado) {
+    setMensagemSistema("Desligamento cancelado pelo usuário.", "info");
+    return;
+  }
+
   try {
     const res = await fetch("/desligar_equipamento", { method: "POST" });
     const data = await res.json();
