@@ -104,6 +104,14 @@ button:active {
   transform: scale(0.98); /* Efeito de redução ao clicar */
 }
 
+.warning-button {
+  background-color: #f0ad4e;
+}
+
+.warning-button:hover {
+  background-color: #ec971f;
+}
+
 .danger-button {
   background-color: #d9534f;
 }
