@@ -16,7 +16,7 @@ ads.data_rate = 128
 chan = AnalogIn(ads, ADS.P0)
 i2c_lock = Lock()
 
-sensibilidade = 1.0
+SENSIBILIDADE_PADRAO_V_KPA = (4.9 - 1.0) / (3920.0 / 1000.0)  # ~0.9949 V/kPa
 
 def carregar_offset():
     config = carregar_config()
@@ -34,52 +34,48 @@ def carregar_config():
             "diametroCilindro": 0.05,
             "pressaoAtmosferica": 95000,
             "offset": 0.0,  # Valor inicial do offset
-            "sensorVs": 5.0,
-            "usarFormulaRatiometrica": True,
-            "sensorSensibilidadeVPorKPa": 1.0,
-            "fatorDivisorTensaoSensor": 1.0
+            "sensorSensibilidadeVPorKPa": SENSIBILIDADE_PADRAO_V_KPA,
+            "pressaoCalibracaoPa": 1150,
+            "pressaoInicioMinPa": 1000,
+            "pressaoInicioMaxPa": 1100,
+            "janelaEstabilidadeSegundos": 5,
+            "oscilacaoMaximaPa": 20,
+            "timeoutEstabilidadeSegundos": 60
         }
 
 def calcular_pressao(voltage, offset, config=None):
     cfg = config or carregar_config()
-    usar_ratiometrica = cfg.get("usarFormulaRatiometrica", True)
-
-    if usar_ratiometrica:
-        vs = float(cfg.get("sensorVs", 5.0))
-        fator_divisor = float(cfg.get("fatorDivisorTensaoSensor", 1.0))
-        if vs <= 0:
-            raise ValueError("sensorVs inválido no configs.json")
-        if fator_divisor <= 0:
-            raise ValueError("fatorDivisorTensaoSensor inválido no configs.json")
-
-        vout_sensor = voltage * fator_divisor
-        voffset_sensor = offset * fator_divisor
-
-        pressao_pa = ((((vout_sensor / vs) - 0.2) / 0.2) * 1000.0)
-        pressao_offset_pa = ((((voffset_sensor / vs) - 0.2) / 0.2) * 1000.0)
-        return pressao_pa - pressao_offset_pa
-
-    sens = float(cfg.get("sensorSensibilidadeVPorKPa", sensibilidade))
+    sens = float(cfg.get("sensorSensibilidadeVPorKPa", SENSIBILIDADE_PADRAO_V_KPA))
+    if sens <= 0:
+        raise ValueError("sensorSensibilidadeVPorKPa inválido no configs.json")
     return ((voltage - offset) / sens) * 1000
 
 def get_pressure():
-    global ultima_pressao_valida
-
     config = carregar_config()
     offset_calibrado = carregar_offset()
+    numero_leituras = 7
+    intervalo_leitura = 0.01
+    leituras = []
 
-    ultimo_erro = None
-    for _ in range(3):
-        try:
-            with i2c_lock:
-                voltagem = chan.voltage
-            pressao = calcular_pressao(voltagem, offset_calibrado, config=config)
-            return round(pressao, 10)
-        except Exception as e:
-            ultimo_erro = e
-            time.sleep(0.05)
+    for _ in range(numero_leituras):
+        ultimo_erro = None
+        for _ in range(3):
+            try:
+                with i2c_lock:
+                    voltagem = chan.voltage
+                leituras.append(voltagem)
+                break
+            except Exception as e:
+                ultimo_erro = e
+                time.sleep(0.05)
+        else:
+            raise RuntimeError(f"Falha ao ler pressão no ADS1115: {ultimo_erro}")
+        time.sleep(intervalo_leitura)
 
-    raise RuntimeError(f"Falha ao ler pressão no ADS1115: {ultimo_erro}")
+    leituras.sort()
+    leitura_filtrada = sum(leituras[1:-1]) / len(leituras[1:-1])  # remove mínimo e máximo
+    pressao = calcular_pressao(leitura_filtrada, offset_calibrado, config=config)
+    return round(pressao, 10)
 
 
 def get_pressure_display():
