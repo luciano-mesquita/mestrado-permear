@@ -64,8 +64,43 @@
             <label for="config-diametroCilindro">Diâmetro do cilindro da amostra (m):</label>
             <input type="number" step="any" id="config-diametroCilindro" placeholder="ex: 0.05">
 
-            <label for="config-pressao">Pressão atmosférica local (Pa):</label>
-            <input type="number" step="any" id="config-pressao" placeholder="ex: 95000">
+            <label for="config-pressaoAtmosferica">Pressão atmosférica local (Pa):</label>
+            <input type="number" step="any" id="config-pressaoAtmosferica" placeholder="ex: 95000">
+
+            <label for="config-offset">Offset do sensor (V):</label>
+            <input type="number" step="any" id="config-offset" placeholder="ex: 0.10">
+
+            <label for="config-sensorVs">Tensão de alimentação do sensor (V):</label>
+            <input type="number" step="any" id="config-sensorVs" placeholder="ex: 5.0">
+
+            <label class="checkbox-field" for="config-usarFormulaRatiometrica">
+                <input type="checkbox" id="config-usarFormulaRatiometrica">
+                Usar fórmula ratiométrica
+            </label>
+
+            <label for="config-sensorSensibilidadeVPorKPa">Sensibilidade do sensor (V/kPa):</label>
+            <input type="number" step="any" id="config-sensorSensibilidadeVPorKPa" placeholder="ex: 1.0">
+
+            <label for="config-fatorDivisorTensaoSensor">Fator divisor de tensão do sensor:</label>
+            <input type="number" step="any" id="config-fatorDivisorTensaoSensor" placeholder="ex: 1.0">
+
+            <label for="config-pressaoCalibracaoPa">Pressão de calibração (Pa):</label>
+            <input type="number" step="any" id="config-pressaoCalibracaoPa" placeholder="ex: 1150">
+
+            <label for="config-pressaoInicioMinPa">Pressão mínima para início (Pa):</label>
+            <input type="number" step="any" id="config-pressaoInicioMinPa" placeholder="ex: 1000">
+
+            <label for="config-pressaoInicioMaxPa">Pressão máxima para início (Pa):</label>
+            <input type="number" step="any" id="config-pressaoInicioMaxPa" placeholder="ex: 1100">
+
+            <label for="config-janelaEstabilidadeSegundos">Janela de estabilidade (s):</label>
+            <input type="number" step="1" id="config-janelaEstabilidadeSegundos" placeholder="ex: 5">
+
+            <label for="config-oscilacaoMaximaPa">Oscilação máxima permitida (Pa):</label>
+            <input type="number" step="any" id="config-oscilacaoMaximaPa" placeholder="ex: 20">
+
+            <label for="config-timeoutEstabilidadeSegundos">Timeout de estabilidade (s):</label>
+            <input type="number" step="1" id="config-timeoutEstabilidadeSegundos" placeholder="ex: 60">
 
             <div class="modal-buttons">
                 <button onclick="salvarConfiguracoes()">Salvar</button>
@@ -95,6 +130,7 @@
             <button onclick="abrirModalPlanilhas()">6 - Listar Planilhas</button>
             <button onclick="abrirModalConfig()">Configurar Equipamento</button>
             <button onclick="iniciarMedicaoAutomatica()">Iniciar Medição Automática</button>
+            <button class="warning-button" onclick="reiniciarEquipamento()">Reiniciar Equipamento</button>
             <button class="danger-button" onclick="desligarEquipamento()">Desligar Equipamento</button>
         </div>
     </div>
