@@ -411,6 +411,25 @@ def desligar_equipamento():
         )
         return jsonify({"status": f"Erro ao desligar equipamento: {str(e)}"}), 500
 
+@app.route("/reiniciar_equipamento", methods=["POST"])
+def reiniciar_equipamento():
+    try:
+        atualizar_status(
+            "Reinicialização do equipamento",
+            "Comando de reinicialização enviado ao Raspberry Pi.",
+            em_execucao=False
+        )
+        # Executa em thread para responder ao cliente antes da reinicialização.
+        Thread(target=lambda: subprocess.run(["sudo", "shutdown", "-r", "now"], check=False), daemon=True).start()
+        return jsonify({"status": "Reinicialização iniciada. O Raspberry Pi será reiniciado em instantes."})
+    except Exception as e:
+        atualizar_status(
+            "Erro na reinicialização",
+            f"Falha ao reiniciar equipamento: {str(e)}",
+            erro=True
+        )
+        return jsonify({"status": f"Erro ao reiniciar equipamento: {str(e)}"}), 500
+
 @app.route("/data")
 def data():
     with lock:
@@ -518,10 +537,8 @@ def carregar_config():
                 "alturaCilindro": 0.05,
                 "diametroCilindro": 0.05,
                 "pressaoAtmosferica": 95000,
-                "sensorVs": 5.0,
-                "usarFormulaRatiometrica": True,
+                "offset": 0.0,
                 "sensorSensibilidadeVPorKPa": 1.0,
-                "fatorDivisorTensaoSensor": 1.0,
                 "pressaoCalibracaoPa": 1150,
                 "pressaoInicioMinPa": 1000,
                 "pressaoInicioMaxPa": 1100,
@@ -536,10 +553,8 @@ def carregar_config():
         "alturaCilindro": 0.05,
         "diametroCilindro": 0.05,
         "pressaoAtmosferica": 95000,
-        "sensorVs": 5.0,
-        "usarFormulaRatiometrica": True,
+        "offset": 0.0,
         "sensorSensibilidadeVPorKPa": 1.0,
-        "fatorDivisorTensaoSensor": 1.0,
         "pressaoCalibracaoPa": 1150,
         "pressaoInicioMinPa": 1000,
         "pressaoInicioMaxPa": 1100,
