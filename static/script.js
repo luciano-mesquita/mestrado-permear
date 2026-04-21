@@ -286,10 +286,7 @@ function abrirModalConfig() {
       document.getElementById("config-diametroCilindro").value = config.diametroCilindro;
       document.getElementById("config-pressaoAtmosferica").value = config.pressaoAtmosferica;
       document.getElementById("config-offset").value = config.offset;
-      document.getElementById("config-sensorVs").value = config.sensorVs;
-      document.getElementById("config-usarFormulaRatiometrica").checked = Boolean(config.usarFormulaRatiometrica);
       document.getElementById("config-sensorSensibilidadeVPorKPa").value = config.sensorSensibilidadeVPorKPa;
-      document.getElementById("config-fatorDivisorTensaoSensor").value = config.fatorDivisorTensaoSensor;
       document.getElementById("config-pressaoCalibracaoPa").value = config.pressaoCalibracaoPa;
       document.getElementById("config-pressaoInicioMinPa").value = config.pressaoInicioMinPa;
       document.getElementById("config-pressaoInicioMaxPa").value = config.pressaoInicioMaxPa;
@@ -312,10 +309,7 @@ function salvarConfiguracoes() {
     diametroCilindro: parseFloat(document.getElementById("config-diametroCilindro").value),
     pressaoAtmosferica: parseFloat(document.getElementById("config-pressaoAtmosferica").value),
     offset: parseFloat(document.getElementById("config-offset").value),
-    sensorVs: parseFloat(document.getElementById("config-sensorVs").value),
-    usarFormulaRatiometrica: document.getElementById("config-usarFormulaRatiometrica").checked,
     sensorSensibilidadeVPorKPa: parseFloat(document.getElementById("config-sensorSensibilidadeVPorKPa").value),
-    fatorDivisorTensaoSensor: parseFloat(document.getElementById("config-fatorDivisorTensaoSensor").value),
     pressaoCalibracaoPa: parseFloat(document.getElementById("config-pressaoCalibracaoPa").value),
     pressaoInicioMinPa: parseFloat(document.getElementById("config-pressaoInicioMinPa").value),
     pressaoInicioMaxPa: parseFloat(document.getElementById("config-pressaoInicioMaxPa").value),
