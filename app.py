@@ -180,6 +180,7 @@ def ajustar_offset_flask():
             em_execucao=True
         )
         ajustar_offset()  # Chama a função que ajusta e salva o offset
+        sensor_service.reset_filter()
         atualizar_status(
             "Offset ajustado",
             "Offset ajustado e salvo com sucesso.",
@@ -538,7 +539,7 @@ def carregar_config():
                 "diametroCilindro": 0.05,
                 "pressaoAtmosferica": 95000,
                 "offset": 0.0,
-                "sensorSensibilidadeVPorKPa": 1.0,
+                "sensorSensibilidadeVPorKPa": 0.9948979591836735,
                 "pressaoCalibracaoPa": 1150,
                 "pressaoInicioMinPa": 1000,
                 "pressaoInicioMaxPa": 1100,
@@ -554,7 +555,7 @@ def carregar_config():
         "diametroCilindro": 0.05,
         "pressaoAtmosferica": 95000,
         "offset": 0.0,
-        "sensorSensibilidadeVPorKPa": 1.0,
+        "sensorSensibilidadeVPorKPa": 0.9948979591836735,
         "pressaoCalibracaoPa": 1150,
         "pressaoInicioMinPa": 1000,
         "pressaoInicioMaxPa": 1100,

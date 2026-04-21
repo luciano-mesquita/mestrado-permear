@@ -16,7 +16,7 @@ ads.data_rate = 128
 chan = AnalogIn(ads, ADS.P0)
 i2c_lock = Lock()
 
-sensibilidade = 1.0
+SENSIBILIDADE_PADRAO_V_KPA = (4.9 - 1.0) / (3920.0 / 1000.0)  # ~0.9949 V/kPa
 
 def carregar_offset():
     config = carregar_config()
@@ -34,7 +34,7 @@ def carregar_config():
             "diametroCilindro": 0.05,
             "pressaoAtmosferica": 95000,
             "offset": 0.0,  # Valor inicial do offset
-            "sensorSensibilidadeVPorKPa": 1.0,
+            "sensorSensibilidadeVPorKPa": SENSIBILIDADE_PADRAO_V_KPA,
             "pressaoCalibracaoPa": 1150,
             "pressaoInicioMinPa": 1000,
             "pressaoInicioMaxPa": 1100,
@@ -45,7 +45,7 @@ def carregar_config():
 
 def calcular_pressao(voltage, offset, config=None):
     cfg = config or carregar_config()
-    sens = float(cfg.get("sensorSensibilidadeVPorKPa", sensibilidade))
+    sens = float(cfg.get("sensorSensibilidadeVPorKPa", SENSIBILIDADE_PADRAO_V_KPA))
     if sens <= 0:
         raise ValueError("sensorSensibilidadeVPorKPa inválido no configs.json")
     return ((voltage - offset) / sens) * 1000

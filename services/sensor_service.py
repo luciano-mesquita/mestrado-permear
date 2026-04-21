@@ -88,5 +88,11 @@ class SensorService:
                 "total_errors": self._total_errors,
             }
 
+    def reset_filter(self):
+        with self._lock:
+            self._filtered_pressure = None
+            self._latest_pressure = None
+            self._latest_ts = 0.0
+
 
 sensor_service = SensorService(hz=20)
